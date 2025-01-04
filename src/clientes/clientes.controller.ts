@@ -17,6 +17,11 @@ export class ClientesController {
     return this.clientesService.findAll();
   }
 
+  @Get('resumen')
+  getResumenClientes() {
+    return this.clientesService.getResumenClientes();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.clientesService.findOne(id);

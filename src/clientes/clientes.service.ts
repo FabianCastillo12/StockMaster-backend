@@ -4,6 +4,7 @@ import { UpdateClienteDto } from './dto/update-cliente.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Cliente } from './entities/cliente.entity';
 import { Repository } from 'typeorm';
+import { getRepository, MoreThanOrEqual } from 'typeorm';
 
 @Injectable()
 export class ClientesService {
@@ -33,5 +34,32 @@ export class ClientesService {
   remove(id: string) {
 console.log(id)
     return this.clienteRespository.delete(id);
+  }
+
+  async getResumenClientes() {
+    const totalClientes = await this.clienteRespository.count();
+    const clientesActivos = await this.clienteRespository.count({ where: { activo: true } });
+    const nuevosEsteMes = await this.clienteRespository.count({
+      where: { createdAt: MoreThanOrEqual(new Date(new Date().setDate(1))) },
+    });
+    const tasaAbandono = await this.clienteRespository.count({
+      where: { activo: false, updatedAt: MoreThanOrEqual(new Date(new Date().setDate(1))) },
+    });
+
+    const totalClientesMesAnterior = await this.clienteRespository.count({
+      where: { createdAt: MoreThanOrEqual(new Date(new Date().setMonth(new Date().getMonth() - 1))) },
+    });
+
+    const porcentajeVsMesAnterior = totalClientesMesAnterior
+      ? ((totalClientes - totalClientesMesAnterior) / totalClientesMesAnterior) * 100
+      : 0;
+
+    return {
+      totalClientes,
+      clientesActivos,
+      nuevosEsteMes,
+      tasaAbandono,
+      porcentajeVsMesAnterior,
+    };
   }
 }
