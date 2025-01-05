@@ -20,6 +20,5 @@ export class UpdateProductoDto {
     @IsString()
     estado?: string;
 
-
 }
 
