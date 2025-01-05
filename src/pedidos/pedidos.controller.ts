@@ -22,6 +22,11 @@ export class PedidosController {
     return this.pedidosService.findOne(+id);
   }
 
+  @Get('/nuevos/comparacion')
+  getPedidosNuevosComparacion() {
+    return this.pedidosService.getPedidosNuevosComparacion();
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updatePedidoDto: UpdatePedidoDto) {
     return this.pedidosService.update(+id, updatePedidoDto);

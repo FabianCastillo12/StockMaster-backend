@@ -25,6 +25,12 @@ export class ProductoController {
     return this.productoService.findOne(+id);
   }
 
+  @Get('low-stock/:threshold')
+  async countLowStock(@Param('threshold') threshold: number) {
+    const count = await this.productoService.countLowStock(+threshold);
+    return { lowStockCount: count };
+  }
+
   @Patch(':id')
   update(@Param('id') id: number, @Body() updateProductoDto: UpdateProductoDto) {
     return this.productoService.update(+id, updateProductoDto);

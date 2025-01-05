@@ -8,7 +8,7 @@ import { Cliente } from "src/clientes/entities/cliente.entity";
 import { DetallePedido } from "src/detalle-pedidos/entities/detalle-pedido.entity";
 import { Producto } from "src/producto/entities/producto.entity";
 import { DetallePedidosService } from "src/detalle-pedidos/detalle-pedidos.service";
-import { Not, In } from "typeorm";
+import { Not, In, Between } from "typeorm";
 
 @Injectable()
 export class PedidosService {
@@ -261,6 +261,36 @@ export class PedidosService {
     return {
       message: `Pedido con ID ${id} y sus detalles han sido eliminados.`,
       pedidoEliminado: id,
+    };
+  }
+
+  async getPedidosNuevosComparacion() {
+    const now = new Date();
+    const startOfCurrentMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const startOfLastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+    const endOfLastMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+
+    const pedidosMesActual = await this.pedidosRepository.count({
+      where: {
+        fecha_pedido: Between(startOfCurrentMonth, now),
+      },
+    });
+
+    const pedidosMesAnterior = await this.pedidosRepository.count({
+      where: {
+        fecha_pedido: Between(startOfLastMonth, endOfLastMonth),
+      },
+    });
+
+    const porcentajeCambio =
+      pedidosMesAnterior === 0
+        ? pedidosMesActual * 100
+        : ((pedidosMesActual - pedidosMesAnterior) / pedidosMesAnterior) * 100;
+
+    return {
+      pedidosMesActual,
+      pedidosMesAnterior,
+      porcentajeCambio,
     };
   }
 }

@@ -3,7 +3,7 @@ import { CreateProductoDto } from './dto/create-producto.dto';
 import { UpdateProductoDto } from './dto/update-producto.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Producto } from './entities/producto.entity';
-import { Repository } from 'typeorm';
+import { Repository, LessThan } from 'typeorm';
 import { Categoria } from 'src/categoria/entities/categoria.entity';
 
 @Injectable()
@@ -45,6 +45,13 @@ export class ProductoService {
     msg:"producto actualizado"
   }
     }
+
+  async countLowStock(threshold: number): Promise<number> {
+    const count = await this.productoRepository.count({
+      where: { cantidadStock: LessThan(threshold) }
+    });
+    return count;
+  }
 
   remove(id: number) {
     console.log(id)
