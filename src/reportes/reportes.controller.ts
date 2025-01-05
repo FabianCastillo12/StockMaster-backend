@@ -20,8 +20,4 @@ export class ReportesController {
     return this.reportesService.obtenerVentasUltimos30Dias();
   }
 
-  @Get('ventas-categoria-semanal')
-  async obtenerVentasGaseosasTipo7dias(){
-    return this.reportesService.obtenerVentasGaseosasTipo7dias();
-  }
 }

@@ -2,8 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@n
 import { ProductoService } from './producto.service';
 import { CreateProductoDto } from './dto/create-producto.dto';
 import { UpdateProductoDto } from './dto/update-producto.dto';
-import { AuthGuard } from 'src/auth/auth.guard';
-import { RolesGuard } from 'src/auth/guard/roles/roles.guard';
+
 
 @Controller('producto')
 export class ProductoController {
@@ -14,7 +13,6 @@ export class ProductoController {
     return this.productoService.create(createProductoDto);
   }
  
-  @UseGuards(AuthGuard,RolesGuard)
   @Get()
   findAll() {
     return this.productoService.findAll();

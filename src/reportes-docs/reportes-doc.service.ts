@@ -25,7 +25,6 @@ export class ReportsService {
         "nombre",
         "cantidadStock",
         "precio",
-        "unidad_medida",
         "estado",
       ],
       relations: ["categoria"],

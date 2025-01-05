@@ -17,7 +17,7 @@ export class ProductoService {
       throw new BadRequestException("categoria equivocada")
     }
    
-    const producto= await this.productoRepository.create({nombre:createProductoDto.nombre,precio:createProductoDto.precio,estado:createProductoDto.estado,cantidadStock:createProductoDto.cantidadStock,unidad_medida:createProductoDto.unidad_medida,categoria})
+    const producto= await this.productoRepository.create({nombre:createProductoDto.nombre,precio:createProductoDto.precio,estado:createProductoDto.estado,cantidadStock:createProductoDto.cantidadStock,categoria})
      return await this.productoRepository.save(producto)
   }
 

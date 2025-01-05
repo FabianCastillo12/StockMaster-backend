@@ -20,8 +20,6 @@ export class Producto {
   @Column()
   cantidadStock: number;
   @Column()
-  unidad_medida: string;
-  @Column()
   estado: string;
   @CreateDateColumn()
   fechaCreacion: Date;
