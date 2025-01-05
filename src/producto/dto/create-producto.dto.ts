@@ -8,8 +8,6 @@ export class CreateProductoDto {
     @IsNumber()
     cantidadStock:number
     @IsString()
-    unidad_medida:string
-    @IsString()
     estado:string
     @IsString()
     @IsOptional()

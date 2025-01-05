@@ -20,9 +20,6 @@ export class UpdateProductoDto {
     @IsString()
     estado?: string;
 
-    @IsOptional()
-    @IsString()
-    unidad_medida?: string;
 
 }
 
